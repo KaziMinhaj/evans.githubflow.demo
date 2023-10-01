@@ -1,24 +1,28 @@
 mode: Mainline
 merge-message-formats:
-  ghmerge: ^Merge pull request \#(?<PullRequestNumber>\d+) from AngelaE\/(?<SourceBranch>.+)
+  ghmerge: >-
+    ^Merge pull request \#(?<PullRequestNumber>\d+) from
+    AngelaE\/(?<SourceBranch>.+)
 branches:
   master:
     regex: (^main$)
-    tag: ""
+    tag: ''
     increment: Patch
     is-release-branch: true
   feature:
-    regex: ^feature?[/-]
+    regex: '^feature?[/-]'
     tag: useBranchName
     increment: Minor
   bugfix:
-    regex: ^bugfix[/-]
+    regex: '^bugfix[/-]'
     tag: useBranchName
     increment: Patch
-    source-branches: ["main"]
+    source-branches:
+      - main
   chore:
-    regex: ^chore[/-]
+    regex: '^chore[/-]'
     tag: useBranchName
     increment: None
     prevent-increment-of-merged-branch-version: true
-    source-branches: ["main"]
+    source-branches:
+      - main
