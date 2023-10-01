@@ -5,7 +5,7 @@ merge-message-formats:
     AngelaE\/(?<SourceBranch>.+)
 branches:
   master:
-    regex: (^main$)
+    regex: (^master$)
     tag: ''
     increment: Patch
     is-release-branch: true
@@ -18,11 +18,11 @@ branches:
     tag: useBranchName
     increment: Patch
     source-branches:
-      - main
+      - master
   chore:
     regex: '^chore[/-]'
     tag: useBranchName
     increment: None
     prevent-increment-of-merged-branch-version: true
     source-branches:
-      - main
+      - master
