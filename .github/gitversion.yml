@@ -13,6 +13,7 @@ branches:
     regex: '^feature?[/-]'
     tag: useBranchName
     increment: Minor
+    mode: ContinuousDeployment
   bugfix:
     regex: '^bugfix[/-]'
     tag: useBranchName
