@@ -1,0 +1,51 @@
+name: Build and Version
+
+on:
+  push:
+    branches: ['master']
+  pull_request:
+    branches: ['master']
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v3
+        with:
+          dotnet-version:
+            6.0.x
+            # git version config starts
+      - name: Install GitVersion
+        uses: gittools/actions/gitversion/setup@v0
+        with:
+          versionSpec: '5.x'
+      - name: Check out Code
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+      - name: Determine Version
+        id: gitversion
+        uses: gittools/actions/gitversion/execute@v0
+        with:
+          useConfigFile: true
+          configFilePath: .github/gitversion.yml
+      - name: Display Version
+        run:
+          echo "Generated Version ${{ steps.gitversion.outputs.FullSemVer }}"
+          #gitversion config ends
+          #automatic tagging starts
+      - name: Tag master branch
+        run: git tag ${{steps.gitversion.outputs.FullSemVer}}
+
+      - name: Push tag
+        run: git push --tags
+        #automatic tagging ends
+      - name: Restore dependencies
+        run: dotnet restore
+      - name: Build
+        run: dotnet build --no-restore
+      - name: Test
+        run: dotnet test --no-build --verbosity normal
